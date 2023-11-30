@@ -1,25 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import Weather from './weather';
 
-function App() {
+const App = () => {
+  const apiKey = '6ad8741639da51e62515b73faac1b0f7';
+  const city = 'Toronto';
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1 className='title'>Weather App by 101395226</h1>
+      <Weather apiKey={apiKey} city={city} />
     </div>
   );
-}
+};
 
 export default App;
