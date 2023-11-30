@@ -10,7 +10,6 @@ const Weather = ({ apiKey }) => {
   const [error, setError] = useState(null);
 
   const getWeatherIconUrl = (iconCode) => {
-    // Example icon URL format: http://openweathermap.org/img/wn/10d.png
     return `http://openweathermap.org/img/wn/${iconCode}.png`;
   };
 
@@ -60,7 +59,6 @@ const Weather = ({ apiKey }) => {
   const handleCityChange = (event) => {
     const enteredCity = event.target.value;
     setCity(enteredCity.charAt(0).toUpperCase() + enteredCity.slice(1));
-    //setCity(event.target.value);
   };
 
   const handleSearch = () => {
@@ -76,14 +74,15 @@ const Weather = ({ apiKey }) => {
       };
   };
 
-  const formatDay = (timestamp) => {
+  const formatTime = (timestamp) => {
     const date = new Date(timestamp * 1000); // Convert to milliseconds
-    const options = { weekday: 'long' };
-    return date.toLocaleDateString('en-US', options);
+    const options = { hour: 'numeric', minute: 'numeric' };
+    return date.toLocaleTimeString('en-US', options);
   };
 
   return (
     <div>
+
       <div className='searchBar'>
         <input className='searchBar'
             type="text"
@@ -110,29 +109,26 @@ const Weather = ({ apiKey }) => {
                 <p>Max: {weatherData.current.main.temp_max}</p>
                 <p>Feels Like: {weatherData.current.main.feels_like}</p>
             </div>
+
             <div className="forecastContainer">
                 {weatherData.forecast
-                .filter((forecastData, index, array) => {
-                    const currentDate = new Date(forecastData.dt * 1000).getDate();
-                    return index === 0 || currentDate !== new Date(array[index - 1].dt * 1000).getDate();
-                })
+                .slice(0, 5)
                 .map((forecastData, index) => (
                     <div key={index} className="forecastItem">
-                        <p>{formatDay(forecastData.dt)}</p>
+                        <p>{formatTime(forecastData.dt)}</p>
                         <img
                             src={getWeatherIconUrl(forecastData.weather[0].icon)}
                             alt="Weather Icon"
                         />
                         <p>{forecastData.weather[0].main}</p>
                         <p>Temp: {forecastData.main.temp}</p>
-                        <p>Min: {forecastData.main.temp_min}</p>
-                        <p>Max: {forecastData.main.temp_max}</p>
                     </div>
                 ))}
             </div>
             </>
         )}
       </div>
+      
     </div>
   );
 };
